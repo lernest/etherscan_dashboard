@@ -6,15 +6,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    address: '',
-    balance: '',
     web3: null,
-    gasPrice: '',
-    accounts: [],
-    blockNumber: null,
+    address: '',
     nodeInfo: '',
     chainID: '',
+    balance: '',
     txnCount: '',
+    gasPrice: '',
+    blockNumber: null,
+    accounts: [],
   },
   mutations: {
     SET_BALANCE(state, balance) {
@@ -37,11 +37,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    initialize({ state, dispatch }) {
+    initialize({ state, dispatch }, url) {
       console.log('Initalizing web3...')
-      state.web3 = new Web3(
-        'https://mainnet.infura.io/v3/f38d41e09e72422ca0ed626bd48df37d'
-      )
+      state.web3 = new Web3(url)
 
       console.log('Getting node info...')
       state.web3.eth
@@ -68,6 +66,13 @@ export default new Vuex.Store({
       dispatch('getBlockNumber')
       dispatch('getGasPrice')
     },
+    getAccountInfo({ dispatch }, address) {
+      console.log('Getting account info', address)
+      dispatch('getBalance', address)
+      dispatch('getAccounts')
+      dispatch('getBlockNumber')
+      dispatch('getTxnCount')
+    },
     getBalance({ state, commit }, address) {
       console.log('Getting balance of ', address)
       commit('SET_ADDRESS', address)
@@ -83,10 +88,13 @@ export default new Vuex.Store({
     },
     getGasPrice({ state, commit }) {
       console.log('Getting gas price...')
-      state.web3.eth.getGasPrice().then((price) => {
-        console.log(price)
-        commit('SET_GAS_PRICE', price)
-      })
+      state.web3.eth
+        .getGasPrice()
+        .then((price) => {
+          console.log(price)
+          commit('SET_GAS_PRICE', price)
+        })
+        .catch((e) => console.log(e))
     },
     getAccounts({ state, commit }) {
       console.log('Getting accounts...')
@@ -102,16 +110,22 @@ export default new Vuex.Store({
     },
     getBlockNumber({ state, commit }) {
       console.log('Getting block number...')
-      state.web3.eth.getBlockNumber().then((num) => {
-        console.log(num)
-        commit('SET_BLOCK_NUMBER', num)
-      })
+      state.web3.eth
+        .getBlockNumber()
+        .then((num) => {
+          console.log(num)
+          commit('SET_BLOCK_NUMBER', num)
+        })
+        .catch((e) => console.log(e))
     },
     getTxnCount({ state, commit }) {
       console.log('Getting txn count...')
-      state.web3.eth.getTransactionCount(state.address).then((count) => {
-        commit('SET_TXN_COUNT', count)
-      })
+      state.web3.eth
+        .getTransactionCount(state.address)
+        .then((count) => {
+          commit('SET_TXN_COUNT', count)
+        })
+        .catch((e) => console.log(e))
     },
   },
   getters: {

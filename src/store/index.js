@@ -13,8 +13,67 @@ export default new Vuex.Store({
     balance: '',
     txnCount: '',
     gasPrice: '',
+    hashRate: '',
     blockNumber: null,
     accounts: [],
+    isValidAddress: true,
+    apiCalls: [
+      {
+        name: 'getNodeInfo',
+        method: 'web3.eth.getNodeInfo',
+        description: 'Returns the current client version.',
+      },
+      {
+        name: 'getChainId',
+        method: 'web3.eth.getChainId',
+        description: 'Returns the current chainId.',
+      },
+      {
+        name: 'getBalance',
+        method: 'web3.eth.getBalance',
+        description:
+          'Get the balance of an address at a given block.  By default, use the latest block',
+      },
+      {
+        name: 'getGasPrice',
+        method: 'web3.eth.getGasPrice',
+        description:
+          'Returns the current gas price oracle. The gas price is determined by the last few blocks median gas price.',
+      },
+      {
+        name: 'getAccounts',
+        method: 'web3.eth.getAccounts',
+        description: 'Returns a list of accounts the node controls.',
+      },
+      {
+        name: 'getBlockNumber',
+        method: 'web3.eth.getBlockNumber',
+        description: 'Returns the current block number.',
+      },
+      {
+        name: 'getTransactionCount',
+        method: 'web3.eth.getTransactionCount',
+        description: 'Get the numbers of transactions sent from this address.',
+      },
+      {
+        name: 'getHashrate',
+        method: 'state.web3.eth.getHashrate',
+        description:
+          'Returns the number of hashes per second that the node is mining with.',
+      },
+      {
+        name: 'fromWei',
+        method: 'state.web3.utils.fromWei',
+        description:
+          'Converts any wei value to an wther value.  By default, all monetary values are displayed in wei.  Wei is the smallest unit of ether (similar to cents and dollars).  One wei is 0.000000000000000001 ether',
+      },
+      {
+        name: 'isAddress',
+        method: 'state.web3.utils.isAddress',
+        description:
+          'Checks if a given string is a valid Ethereum address. It will also check the checksum, if the address has upper and lowercase letters.',
+      },
+    ],
   },
   mutations: {
     SET_BALANCE(state, balance) {
@@ -35,9 +94,13 @@ export default new Vuex.Store({
     SET_TXN_COUNT(state, count) {
       state.txnCount = count
     },
+    SET_HASH_RATE(state, rate) {
+      state.hashRate = rate
+    },
   },
   actions: {
     initialize({ state, dispatch }, url) {
+      // URL is either localhost or infura
       console.log('Initalizing web3...')
       state.web3 = new Web3(url)
 
@@ -66,12 +129,20 @@ export default new Vuex.Store({
       dispatch('getBlockNumber')
       dispatch('getGasPrice')
     },
-    getAccountInfo({ dispatch }, address) {
+    getAccountInfo({ state, dispatch }, address) {
+      state.isValidAddress = true
+      console.log('Checking if account is valid...')
+      state.isValidAddress = state.web3.utils.isAddress(address)
+      if (!state.isValidAddress) {
+        console.log('Address is invalid')
+        return
+      }
       console.log('Getting account info', address)
       dispatch('getBalance', address)
       dispatch('getAccounts')
       dispatch('getBlockNumber')
       dispatch('getTxnCount')
+      dispatch('getHashRate')
     },
     getBalance({ state, commit }, address) {
       console.log('Getting balance of ', address)
@@ -124,6 +195,15 @@ export default new Vuex.Store({
         .getTransactionCount(state.address)
         .then((count) => {
           commit('SET_TXN_COUNT', count)
+        })
+        .catch((e) => console.log(e))
+    },
+    getHashRate({ state, commit }) {
+      console.log('Getting hash rate...')
+      state.web3.eth
+        .getHashrate()
+        .then((rate) => {
+          commit('SET_HASH_RATE', rate)
         })
         .catch((e) => console.log(e))
     },

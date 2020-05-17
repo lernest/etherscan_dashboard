@@ -76,7 +76,7 @@
                 </v-btn>
               </v-btn-toggle>
             </v-card-actions>
-            <v-card-subtitle v-if="!isConnected" class="mx-1 overline red--text"
+            <v-card-subtitle v-if="!isConnected" class="mx-2 overline red--text"
               >Unable to connect to the network</v-card-subtitle
             >
             <v-card-subtitle

@@ -117,7 +117,7 @@
           </v-card>
 
           <!-- Display node info and chain ID -->
-          <v-card class="mx-auto mt-8">
+          <v-card flat class="mx-auto mt-8">
             <FlipCard>
               <!-- Front of the card -->
               <template v-slot:front>

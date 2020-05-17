@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar dense bottom min-height="40px" max-height="50px">
+    <v-app-bar color="primary" dense bottom min-height="40px" max-height="50px">
       <v-btn
         v-for="link in links"
         :key="`${link.label}-footer-link`"
@@ -12,6 +12,15 @@
       >
         {{ link.label }}
       </v-btn>
+      <v-btn
+        @click="toggleMode"
+        color="white"
+        text
+        tile
+        x-small
+        class="my-2 custom-btn"
+        >Switch to {{ colorMode }} mode</v-btn
+      >
     </v-app-bar>
     <v-content>
       <router-view></router-view>
@@ -21,21 +30,33 @@
 
 <script>
 export default {
-  name: "App",
-
-  components: {},
-
+  name: 'App',
+  beforeCreate() {
+    this.$vuetify.theme.isDark = true
+  },
+  methods: {
+    toggleMode() {
+      if (this.colorMode == 'dark') {
+        this.$vuetify.theme.isDark = true
+        this.colorMode = 'light'
+      } else {
+        this.$vuetify.theme.isDark = false
+        this.colorMode = 'dark'
+      }
+    },
+  },
   data: () => ({
+    colorMode: 'light',
     links: [
       {
-        label: "Explore",
-        url: "/"
+        label: 'Explore',
+        url: '/',
       },
       {
-        label: "About",
-        url: "/about"
-      }
-    ]
-  })
-};
+        label: 'About',
+        url: '/about',
+      },
+    ],
+  }),
+}
 </script>

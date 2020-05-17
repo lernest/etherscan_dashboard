@@ -7,7 +7,7 @@
         color="white"
         text
         x-small
-        class="my-2 custom-btn"
+        class="my-2 mx-1 custom-btn"
         :to="link.url"
       >
         {{ link.label }}

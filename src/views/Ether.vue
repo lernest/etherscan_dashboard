@@ -14,7 +14,8 @@
                 style="text-decoration:none"
                 class="green--text"
                 href="https://web3js.readthedocs.io/en/v1.2.7/"
-                >web3.js</a
+                target="_blank"
+                ><span title="Link will open in a new tab">web3.js</span></a
               >
               and
               <a
@@ -22,14 +23,16 @@
                 style="text-decoration:none"
                 class="green--text"
                 href="https://infura.io/"
-                >Inufra</a
+                target="_blank"
+                ><span title="Link will open in a new tab">Inufra</span></a
               >
               <a
                 v-if="network"
                 style="text-decoration:none"
                 class="green--text"
                 href="https://www.trufflesuite.com/ganache"
-                >Ganache</a
+                target="_blank"
+                ><span title="Link will open in a new tab">Ganache</span></a
               >. Click on a card below for more information.
             </v-card-subtitle>
 
@@ -39,7 +42,8 @@
                 style="text-decoration:none"
                 class="green--text"
                 href="https://www.etherscan.io/accounts"
-                >Etherscan</a
+                target="_blank"
+                ><span title="Link will open in a new tab">Etherscan</span></a
               >
               and find an account to inspect. For example,
               0xbe0eb53f46cd790cd13851d5eff43d12404d33e8
@@ -52,7 +56,8 @@
                 style="text-decoration:none"
                 class="green--text"
                 href="https://remix.io"
-                >Remix.io</a
+                target="_blank"
+                ><span title="Link will open in a new tab">Remix.io</span></a
               >
               and change the environment to
               <strong> Web3 Provider </strong> with the same address.
@@ -78,7 +83,7 @@
       <!-- Address -->
       <v-row>
         <v-col>
-          <v-card outlined class="custom-card mx-auto mb-4 my-1 pa-4">
+          <v-card outlined class="custom-card mx-auto mb-4 my-1 pa-5">
             <v-text-field
               class="body-1 mb-n6"
               outlined
@@ -118,20 +123,22 @@
               </template>
               <template v-slot:back>
                 <v-card-text class="body-1 font-weight-light"
-                  >Node info refers to the current client version, whether we're
-                  connected to the mainnet via Infura, or the local node on
-                  Ganache.</v-card-text
+                  >Node info refers to the current client version. This will be
+                  different whether we're connected to the mainnet via Infura,
+                  or a local node with Ganache.</v-card-text
                 >
                 <v-card-text class="body-1 font-weight-light"
-                  >ChainID is an integer number being used in the processes of
-                  signing transactions and verifying transaction signatures to
-                  ensure that a transaction is submitted to only one chain. This
-                  prevents
+                  >ChainID is an integer number used when signing and verifying
+                  transactions to ensure that a transaction is submitted to only
+                  one chain. This prevents
                   <a
                     style="text-decoration:none"
                     class="green--text"
                     href="https://en.wikipedia.org/wiki/Replay_attack"
-                    >replay attacks</a
+                    target="_blank"
+                    ><span title="Link will open in a new tab"
+                      >replay attacks</span
+                    ></a
                   >.
                 </v-card-text>
               </template>
@@ -161,13 +168,13 @@
             </template>
             <template v-slot:back>
               <v-card-text class="body-1 font-weight-light"
-                >Accounts on node will be an empty array when connected to the
-                main chain. On the local net, it will reflect the same account
-                numbers as shown in Ganache.</v-card-text
-              >
+                >When connected to the main chain, this will be an empty array.
+                On the local net, it will reflect the same account addresses as
+                shown in Ganache.
+              </v-card-text>
               <v-card-text class="body-1 font-weight-light"
                 >Hash rate will be blank unless connected to a mining
-                node</v-card-text
+                node.</v-card-text
               >
             </template>
           </FlipCard>
@@ -247,7 +254,8 @@
                   style="text-decoration:none"
                   class="green--text"
                   href="https://kb.myetherwallet.com/en/transactions/what-is-gas/"
-                  >More info</a
+                  target="_blank"
+                  ><span title="Link will open in a new tab">More info</span></a
                 ></v-card-text
               >
             </template>
@@ -281,61 +289,60 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import FlipCard from "../components/FlipCard";
+import { mapState, mapGetters } from 'vuex'
+import FlipCard from '../components/FlipCard'
 export default {
   components: {
-    FlipCard
+    FlipCard,
   },
   data() {
     return {
-      addressInput: "",
-      network: 0
-    };
+      addressInput: '',
+      network: 0,
+    }
   },
   beforeCreate() {
-    console.log("beforeCreate");
+    console.log('beforeCreate')
     this.$store.dispatch(
-      "initialize",
-      "https://mainnet.infura.io/v3/f38d41e09e72422ca0ed626bd48df37d"
-    );
+      'initialize',
+      'https://mainnet.infura.io/v3/f38d41e09e72422ca0ed626bd48df37d'
+    )
   },
   methods: {
     getAccountInfo() {
-      console.log(this.addressInput);
-      this.$store.dispatch("getAccountInfo", this.addressInput);
+      console.log(this.addressInput)
+      this.$store.dispatch('getAccountInfo', this.addressInput)
     },
     connectToNetwork() {
-      console.log("Network: ", this.network);
+      console.log('Network: ', this.network)
       if (this.network === 0) {
-        this.$store.dispatch("initialize", "HTTP://127.0.0.1:8545");
+        this.$store.dispatch('initialize', 'HTTP://127.0.0.1:8545')
       } else if (this.network === 1) {
         this.$store.dispatch(
-          "initialize",
-          "https://mainnet.infura.io/v3/f38d41e09e72422ca0ed626bd48df37d"
-        );
+          'initialize',
+          'https://mainnet.infura.io/v3/f38d41e09e72422ca0ed626bd48df37d'
+        )
       } else {
-        console.log("Unable to connect to network: ", this.network);
+        console.log('Unable to connect to network: ', this.network)
       }
-    }
+    },
   },
   computed: {
     ...mapState([
-      "balance",
-      "address",
-      "gasPrice",
-      "accounts",
-      "blockNumber",
-      "nodeInfo",
-      "chainID",
-      "txnCount",
-      "hashRate",
-      "isValidAddress",
-      "apiCalls"
+      'balance',
+      'address',
+      'gasPrice',
+      'accounts',
+      'blockNumber',
+      'nodeInfo',
+      'chainID',
+      'txnCount',
+      'hashRate',
+      'isValidAddress',
     ]),
-    ...mapGetters(["balanceEther"])
-  }
-};
+    ...mapGetters(['balanceEther']),
+  },
+}
 </script>
 
 <style lang="scss" scoped>

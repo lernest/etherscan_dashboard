@@ -1,13 +1,18 @@
 <template>
   <!-- When the card is clicked, flip to the other side -->
+  <!-- https://github.com/andersponders/vue-flip-card/blob/master/FlipCard.vue -->
   <!-- Using click.native prevents the highlight/ripple effect -->
   <v-card
     outlined
-    class="custom-card mx-auto my-1 pa-5"
+    class="mx-auto my-1 mb=10 pa-5"
     height="100%"
     @click.native="flipped = !flipped"
   >
-    <div v-bind:class="flipped ? 'flip-container flipped' : 'flip-container'">
+    <div
+      v-bind:class="
+        flipped ? 'flip-container flipped scroll' : 'flip-container'
+      "
+    >
       <div class="flipper">
         <!-- Front of the card -->
         <div class="front">
@@ -24,21 +29,18 @@
 </template>
 
 <script>
-// https://github.com/andersponders/vue-flip-card/blob/master/FlipCard.vue
-
 export default {
   name: 'FlipCard',
   data: function() {
     return {
-      flipped: false, // Toggle on card click
+      flipped: false,
     }
   },
 }
 </script>
 
 <style type="text/css" scoped>
-.custom-card {
-  margin-bottom: 15px;
+.scroll {
   overflow-y: auto;
 }
 .flip-container {

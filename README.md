@@ -2,6 +2,8 @@
 
 Ethereum blockchain explorer made with [Vue.js](https://vuejs.org/) and [Web3.js](https://web3js.readthedocs.io/en/v1.2.0/)
 
+![webpage](./img/web3_explorer.png)
+
 ## To run locally
 
 `npm install`

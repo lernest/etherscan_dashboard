@@ -56,16 +56,18 @@
         A handful of Web3 methods are used in this app.
       </v-card-text>
 
-      <v-expansion-panels class="px-12">
-        <v-expansion-panel v-for="apiCall in apiCalls" :key="apiCall.method">
-          <v-expansion-panel-header class="body-1 font-weight-light">
-            {{ apiCall.method }}
-          </v-expansion-panel-header>
-          <v-expansion-panel-content class="body-1 font-weight-thin">
-            {{ apiCall.description }}
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <v-flex>
+        <v-expansion-panels class="px-12">
+          <v-expansion-panel v-for="apiCall in apiCalls" :key="apiCall.method">
+            <v-expansion-panel-header class="body-1 font-weight-light">
+              {{ apiCall.method }}
+            </v-expansion-panel-header>
+            <v-expansion-panel-content class="body-1 font-weight-thin">
+              {{ apiCall.description }}
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-flex>
 
       <v-divider class="mt-8 mb-4"></v-divider>
 
@@ -210,4 +212,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-expansion-panel {
+  min-width: 320px;
+}
+</style>

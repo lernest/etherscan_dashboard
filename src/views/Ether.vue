@@ -364,9 +364,11 @@ export default {
       console.log('Network: ', this.isLocal)
       if (this.isLocal === true) {
         console.log('Connecting to local net...')
+        this.isLocalButton = 1 // ensures that the button and actual network remain the same
         this.$store.dispatch('initialize', 'HTTP://127.0.0.1:8545')
       } else if (this.isLocal === false) {
         console.log('Connecting to mainnet...')
+        this.isLocalButton = 0 // ensures that the button and actual network remain the same
         this.$store.dispatch(
           'initialize',
           'https://mainnet.infura.io/v3/f38d41e09e72422ca0ed626bd48df37d'

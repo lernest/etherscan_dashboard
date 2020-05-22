@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar color="primary" dense bottom min-height="40px" max-height="50px">
+    <v-app-bar color="#000" dense bottom min-height="40px" max-height="50px">
       <v-btn
         v-for="link in links"
         :key="`${link.label}-footer-link`"
@@ -30,33 +30,33 @@
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   beforeCreate() {
-    this.$vuetify.theme.isDark = true
+    this.$vuetify.theme.isDark = true;
   },
   methods: {
     toggleMode() {
-      if (this.colorMode == 'dark') {
-        this.$vuetify.theme.isDark = true
-        this.colorMode = 'light'
+      if (this.colorMode == "dark") {
+        this.$vuetify.theme.isDark = true;
+        this.colorMode = "light";
       } else {
-        this.$vuetify.theme.isDark = false
-        this.colorMode = 'dark'
+        this.$vuetify.theme.isDark = false;
+        this.colorMode = "dark";
       }
-    },
+    }
   },
   data: () => ({
-    colorMode: 'light',
+    colorMode: "light",
     links: [
       {
-        label: 'Explore',
-        url: '/',
+        label: "Explore",
+        url: "/"
       },
       {
-        label: 'About',
-        url: '/about',
-      },
-    ],
-  }),
-}
+        label: "About",
+        url: "/about"
+      }
+    ]
+  })
+};
 </script>
